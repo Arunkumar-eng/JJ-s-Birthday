@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Birthday Princess! 🎀</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -17,6 +18,7 @@
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
             min-height: 100vh;
             position: relative;
+            touch-action: manipulation;
         }
 
         /* Magical Fortune Teller Modal */
@@ -33,35 +35,41 @@
             align-items: center;
             z-index: 3000;
             display: none;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .fortune-container {
             position: relative;
-            width: 300px;
-            height: 400px;
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin: 20px 0;
         }
 
         .fortune-title {
             color: white;
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             text-align: center;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .fortune-subtitle {
             color: #ffb6c1;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            margin-bottom: 20px;
             text-align: center;
+            padding: 0 10px;
         }
 
         .crystal-ball {
-            width: 250px;
-            height: 250px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,105,180,0.6));
             border: 8px solid #ff69b4;
@@ -86,10 +94,10 @@
         }
 
         .fortune-message {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #8B4513;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(255,255,255,0.7);
             opacity: 0;
@@ -97,12 +105,12 @@
         }
 
         .shake-btn {
-            margin-top: 30px;
+            margin-top: 20px;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.3rem;
+            padding: 12px 30px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
@@ -110,6 +118,7 @@
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            min-width: 150px;
         }
 
         .shake-btn:hover {
@@ -118,10 +127,11 @@
         }
 
         .fortune-result {
-            margin-top: 25px;
+            margin-top: 20px;
             background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
+            width: 100%;
             max-width: 80%;
             text-align: center;
             display: none;
@@ -131,27 +141,27 @@
 
         .fortune-result h3 {
             color: #ff1493;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
         }
 
         .fortune-result p {
-            margin: 10px 0;
-            font-size: 1.1rem;
+            margin: 8px 0;
+            font-size: 1rem;
             color: #333;
         }
 
         .close-fortune {
             position: absolute;
-            top: 25px;
-            right: 25px;
+            top: 15px;
+            right: 15px;
             background: #ff69b4;
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s;
@@ -174,13 +184,13 @@
             100% { transform: rotate(360deg) scale(1); }
         }
 
-
         /* Floating Elements Animation */
         .floating-element {
             position: absolute;
-            font-size: 25px;
+            font-size: 20px;
             animation: float 8s infinite linear;
             opacity: 0.9;
+            z-index: 1;
         }
 
         @keyframes float {
@@ -198,8 +208,9 @@
         .sparkle {
             position: absolute;
             color: #ff69b4;
-            font-size: 15px;
+            font-size: 12px;
             animation: sparkle 2.5s infinite;
+            z-index: 1;
         }
 
         @keyframes sparkle {
@@ -214,7 +225,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             position: relative;
             z-index: 10;
         }
@@ -223,15 +234,16 @@
         .birthday-card {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(15px);
-            border-radius: 40px;
-            padding: 50px 40px;
+            border-radius: 30px;
+            padding: 40px 20px;
             text-align: center;
             box-shadow: 0 25px 70px rgba(255, 105, 180, 0.3);
-            max-width: 650px;
+            max-width: 100%;
             width: 100%;
             position: relative;
             animation: cardEntrance 2s ease-out;
             border: 4px solid rgba(255, 182, 193, 0.5);
+            margin: 15px;
         }
 
         @keyframes cardEntrance {
@@ -247,16 +259,17 @@
 
         /* Title Animation */
         .title {
-            font-size: 3.8rem;
+            font-size: 2.5rem;
             background: linear-gradient(45deg, #ff69b4, #ff1493, #da70d6, #ff69b4, #ff1493);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientShift 3s ease-in-out infinite;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+            line-height: 1.2;
         }
 
         @keyframes gradientShift {
@@ -265,9 +278,9 @@
         }
 
         .princess-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #ff69b4;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             animation: titleBounce 2s ease-in-out infinite;
         }
 
@@ -279,12 +292,13 @@
 
         /* Message */
         .message {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: #8B4513;
-            line-height: 2;
-            margin-bottom: 35px;
+            line-height: 1.8;
+            margin-bottom: 25px;
             animation: messageSlideIn 2.5s ease-out 0.5s both;
             font-weight: 500;
+            padding: 0 10px;
         }
 
         @keyframes messageSlideIn {
@@ -300,7 +314,7 @@
 
         /* Cake Container */
         .cake-container {
-            margin: 35px 0;
+            margin: 25px 0;
             animation: cakeAppear 2.5s ease-out 1s both;
         }
 
@@ -316,8 +330,8 @@
         }
 
         .cake {
-            font-size: 5rem;
-            margin-bottom: 25px;
+            font-size: 4rem;
+            margin-bottom: 20px;
             animation: cakeBounce 3s ease-in-out infinite;
             cursor: pointer;
             transition: transform 0.3s;
@@ -342,10 +356,10 @@
         /* Cute Decorations */
         .cute-decorations {
             position: absolute;
-            top: -40px;
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2.8rem;
+            font-size: 2rem;
             animation: decorationFloat 4s ease-in-out infinite;
         }
 
@@ -357,9 +371,9 @@
         /* Princess Crown */
         .crown {
             position: absolute;
-            top: -15px;
-            right: 20px;
-            font-size: 2.5rem;
+            top: -10px;
+            right: 15px;
+            font-size: 2rem;
             animation: crownSparkle 2s ease-in-out infinite;
             cursor: pointer;
         }
@@ -372,10 +386,11 @@
         /* Confetti */
         .confetti {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             animation: confettiFall 4s infinite linear;
+            z-index: 1;
         }
 
         .confetti:nth-child(2n) { 
@@ -404,8 +419,8 @@
             background: linear-gradient(45deg, #ff69b4, #ff1493, #da70d6);
             color: white;
             border: none;
-            padding: 18px 45px;
-            font-size: 1.3rem;
+            padding: 15px 35px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
@@ -414,6 +429,8 @@
             box-shadow: 0 12px 30px rgba(255, 105, 180, 0.4);
             animation: buttonPulse 2.5s ease-in-out infinite;
             border: 3px solid rgba(255, 255, 255, 0.3);
+            min-width: 250px;
+            margin: 0 auto;
         }
 
         @keyframes buttonPulse {
@@ -429,10 +446,11 @@
         /* Fireworks */
         .firework {
             position: absolute;
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             animation: firework 2s ease-out infinite;
+            z-index: 1;
         }
 
         @keyframes firework {
@@ -448,12 +466,13 @@
 
         /* Special Message */
         .special-message {
-            margin-top: 35px;
-            font-size: 1.2rem;
+            margin-top: 25px;
+            font-size: 1rem;
             color: #8B4513;
             font-style: italic;
             animation: specialMessageGlow 4s ease-in-out infinite;
             font-weight: 500;
+            padding: 0 10px;
         }
 
         @keyframes specialMessageGlow {
@@ -464,18 +483,21 @@
         /* Music Control */
         .music-control {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: rgba(255, 255, 255, 0.9);
             border: none;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            font-size: 1.3rem;
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
             transition: all 0.3s ease;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .music-control:hover {
@@ -486,42 +508,45 @@
         /* Countdown Timer */
         .countdown-container {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 15px;
+            left: 15px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 10px;
             box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
             z-index: 1000;
             display: flex;
             flex-direction: column;
             align-items: center;
             animation: pulse 2s infinite;
+            max-width: calc(100% - 30px);
         }
 
         .countdown-title {
-            font-size: 1rem;
+            font-size: 0.8rem;
             color: #ff69b4;
             margin-bottom: 5px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .countdown-timer {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #ff1493;
             font-weight: bold;
             display: flex;
-            gap: 5px;
+            gap: 3px;
         }
 
         .countdown-unit {
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-width: 40px;
         }
 
         .countdown-value {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -529,7 +554,7 @@
         }
 
         .countdown-label {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: #da70d6;
             text-transform: uppercase;
         }
@@ -542,8 +567,8 @@
         /* Balloon Pop Effect */
         .balloon-pop {
             position: absolute;
-            width: 60px;
-            height: 80px;
+            width: 50px;
+            height: 70px;
             background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
             border-radius: 50%;
             animation: balloonFloat 8s linear infinite;
@@ -554,11 +579,11 @@
         .balloon-pop:before {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 20px;
+            width: 3px;
+            height: 15px;
             background: #ff69b4;
         }
 
@@ -574,29 +599,32 @@
         /* Birthday Wishes Board */
         .wishes-board {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 25px 70px rgba(255, 105, 180, 0.5);
             z-index: 2000;
-            max-width: 500px;
-            width: 90%;
             display: none;
             animation: cardEntrance 0.5s ease-out;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .wishes-board h2 {
             color: #ff69b4;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
+            font-size: 1.5rem;
+            margin-top: 30px;
         }
 
         .wishes-board form {
             display: flex;
             flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
 
         .wishes-board textarea {
@@ -607,7 +635,8 @@
             padding: 15px;
             font-family: 'Comic Sans MS', cursive;
             resize: none;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1rem;
         }
 
         .wishes-board input[type="text"] {
@@ -617,13 +646,14 @@
             border-radius: 10px;
             margin-bottom: 15px;
             font-family: 'Comic Sans MS', cursive;
+            font-size: 1rem;
         }
 
         .wishes-board button {
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 25px;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
@@ -631,6 +661,8 @@
             margin: 0 auto;
             transition: all 0.3s;
             font-family: 'Comic Sans MS', cursive;
+            font-size: 1rem;
+            min-width: 150px;
         }
 
         .wishes-board button:hover {
@@ -639,24 +671,25 @@
         }
 
         .wishes-board-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: fixed;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
             color: #ff69b4;
+            z-index: 2001;
         }
 
         /* Loading spinner */
         .spinner {
             display: none;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             margin: 10px auto;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #ff69b4;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ff69b4;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -672,18 +705,17 @@
             color: #ff69b4;
             text-align: center;
             margin-top: 15px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
-        
         /* Virtual Gift Box */
         .gift-box {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: 15px;
+            left: 15px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 10px;
             box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
             z-index: 1000;
             cursor: pointer;
@@ -698,69 +730,72 @@
         }
 
         .gift-box-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: #ff69b4;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .gift-box-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #ff1493;
         }
 
         /* Virtual Gift */
         .virtual-gift {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 25px 70px rgba(255, 105, 180, 0.5);
             z-index: 2000;
-            max-width: 500px;
-            width: 90%;
             display: none;
             animation: cardEntrance 0.5s ease-out;
-            text-align: center;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .virtual-gift h2 {
             color: #ff69b4;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            text-align: center;
         }
 
         .virtual-gift-content {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #8B4513;
             margin-bottom: 20px;
+            text-align: center;
+            padding: 0 15px;
         }
 
         .virtual-gift-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: fixed;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
             color: #ff69b4;
+            z-index: 2001;
         }
 
         /* Birthday Cake Candles */
         .candles {
             position: absolute;
-            bottom: 50px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .candle {
-            width: 10px;
-            height: 30px;
+            width: 8px;
+            height: 25px;
             background: linear-gradient(to bottom, #fff, #ffd700);
             border-radius: 5px 5px 0 0;
             position: relative;
@@ -769,157 +804,78 @@
         .candle:after {
             content: '';
             position: absolute;
-            top: -10px;
+            top: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 6px;
-            height: 10px;
+            width: 5px;
+            height: 8px;
             background: #ff4500;
             border-radius: 50% 50% 20% 20%;
             animation: flicker 2s infinite alternate;
         }
 
         @keyframes flicker {
-            0%, 100% { opacity: 1; height: 10px; }
-            50% { opacity: 0.8; height: 8px; }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .birthday-card {
-                padding: 35px 25px;
-                margin: 15px;
-            }
-            
-            .title {
-                font-size: 2.8rem;
-            }
-            
-            .message {
-                font-size: 1.2rem;
-            }
-            
-            .cake {
-                font-size: 4rem;
-            }
-            
-            .cute-decorations {
-                font-size: 2.2rem;
-            }
-
-            .countdown-container {
-                top: 10px;
-                left: 10px;
-                padding: 10px;
-            }
-
-            .countdown-title {
-                font-size: 0.8rem;
-            }
-
-            .countdown-timer {
-                font-size: 1.2rem;
-            }
-
-            .countdown-value {
-                font-size: 1.4rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .title {
-                font-size: 2.2rem;
-            }
-            
-            .message {
-                font-size: 1.1rem;
-            }
-            
-            .cute-decorations {
-                font-size: 1.8rem;
-            }
-            
-            .music-control {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-
-            .countdown-container {
-                position: static;
-                margin: 20px auto;
-                width: 90%;
-            }
-        }
-
-        /* Additional cute elements */
-        .floating-hearts {
-            position: absolute;
-            animation: heartFloat 6s ease-in-out infinite;
-            cursor: pointer;
-        }
-
-        @keyframes heartFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-10px) rotate(5deg); }
-            50% { transform: translateY(-5px) rotate(-5deg); }
-            75% { transform: translateY(-15px) rotate(3deg); }
+            0%, 100% { opacity: 1; height: 8px; }
+            50% { opacity: 0.8; height: 6px; }
         }
 
         /* Birthday Song Lyrics */
         .song-lyrics {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 25px 70px rgba(255, 105, 180, 0.5);
             z-index: 2000;
-            max-width: 500px;
-            width: 90%;
             display: none;
             animation: cardEntrance 0.5s ease-out;
-            text-align: center;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .song-lyrics h2 {
             color: #ff69b4;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            text-align: center;
         }
 
         .song-lyrics-content {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #8B4513;
-            line-height: 1.8;
+            line-height: 1.6;
             margin-bottom: 20px;
+            text-align: center;
+            padding: 0 15px;
         }
 
         .song-lyrics-close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            position: fixed;
+            top: 15px;
+            right: 15px;
             background: none;
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
             color: #ff69b4;
+            z-index: 2001;
         }
 
-        /* Birthday Dance Animation */
+        /* Dance Floor */
         .dance-floor {
             position: fixed;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 10px;
             z-index: 1000;
         }
 
         .dancer {
-            font-size: 2rem;
+            font-size: 1.5rem;
             animation: dance 2s infinite alternate;
             cursor: pointer;
         }
@@ -930,13 +886,14 @@
             50% { transform: translateY(0) rotate(-5deg); }
             75% { transform: translateY(-15px) rotate(5deg); }
         }
-         .message-bottle {
+
+        .message-bottle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 10px;
             box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
             z-index: 1000;
             cursor: pointer;
@@ -951,13 +908,13 @@
         }
 
         .message-bottle-icon {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: #ff69b4;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .message-bottle-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #ff1493;
         }
 
@@ -974,36 +931,38 @@
             align-items: center;
             z-index: 3000;
             display: none;
+            padding: 20px;
         }
 
         .cake-image-container {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            width: 100%;
+            max-width: 500px;
+            height: auto;
         }
 
         .cake-image {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 20px;
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
             box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
         }
 
         .close-cake-image {
             position: absolute;
-            top: -15px;
-            right: -15px;
+            top: -10px;
+            right: -10px;
             background: #ff69b4;
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
-        
+
         /* Enhanced Spinning Wheel Styles */
         .wheel-modal {
             position: fixed;
@@ -1018,12 +977,14 @@
             align-items: center;
             z-index: 3000;
             display: none;
+            overflow-y: auto;
+            padding: 20px;
         }
 
         .wheel-container {
             position: relative;
-            width: 320px;
-            height: 320px;
+            width: 280px;
+            height: 280px;
             margin: 0 auto;
             perspective: 1000px;
         }
@@ -1034,8 +995,8 @@
             border-radius: 50%;
             position: relative;
             overflow: hidden;
-            border: 12px solid #ff69b4;
-            box-shadow: 0 0 0 10px #ff1493, 
+            border: 10px solid #ff69b4;
+            box-shadow: 0 0 0 8px #ff1493, 
                         0 0 20px rgba(255, 20, 147, 0.6),
                         0 0 40px rgba(255, 20, 147, 0.4);
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
@@ -1050,18 +1011,18 @@
             transform-origin: bottom right;
             left: 0;
             top: 0;
-            border: 3px solid rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.8);
             box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
             text-align: center;
-            padding-left: 40px;
-            padding-bottom: 50px;
+            padding-left: 30px;
+            padding-bottom: 40px;
             clip-path: polygon(0 0, 100% 0, 100% 100%);
         }
 
@@ -1087,44 +1048,44 @@
 
         .wheel-center {
             position: absolute;
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: white;
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border: 10px solid #ff69b4;
+            border: 8px solid #ff69b4;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #ff1493;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         .wheel-pointer {
             position: absolute;
-            top: -25px;
+            top: -20px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-top: 50px solid #ff1493;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #ff1493;
             z-index: 5;
             filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.6));
         }
 
         .spin-btn {
-            margin-top: 30px;
+            margin-top: 20px;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.3rem;
+            padding: 12px 30px;
+            font-size: 1.1rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
@@ -1132,6 +1093,7 @@
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
+            min-width: 150px;
         }
 
         .spin-btn:hover {
@@ -1140,10 +1102,11 @@
         }
 
         .wheel-result {
-            margin-top: 25px;
+            margin-top: 20px;
             background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
+            padding: 15px;
             border-radius: 15px;
+            width: 100%;
             max-width: 80%;
             text-align: center;
             display: none;
@@ -1153,30 +1116,31 @@
 
         .wheel-result h3 {
             color: #ff1493;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
         }
 
         .wheel-result p {
-            margin: 10px 0;
-            font-size: 1.1rem;
+            margin: 8px 0;
+            font-size: 1rem;
             color: #333;
         }
 
         .close-wheel {
-            position: absolute;
-            top: 25px;
-            right: 25px;
+            position: fixed;
+            top: 15px;
+            right: 15px;
             background: #ff69b4;
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.3s;
+            z-index: 3001;
         }
 
         .close-wheel:hover {
@@ -1186,17 +1150,18 @@
 
         .wheel-title {
             color: white;
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
             text-align: center;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .wheel-subtitle {
             color: #ffb6c1;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+            font-size: 1rem;
+            margin-bottom: 20px;
             text-align: center;
+            padding: 0 15px;
         }
 
         /* Birthday Image Modal */
@@ -1212,44 +1177,154 @@
             align-items: center;
             z-index: 3000;
             display: none;
+            padding: 20px;
         }
 
         .birthday-image-container {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
+            width: 100%;
+            max-width: 500px;
+            height: auto;
         }
 
         .birthday-image {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 20px;
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
             box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
         }
 
         .close-birthday-image {
             position: absolute;
-            top: -15px;
-            right: -15px;
+            top: -10px;
+            right: -10px;
             background: #ff69b4;
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        
+        /* Floating Hearts */
+        .floating-hearts {
+            position: absolute;
+            animation: heartFloat 6s ease-in-out infinite;
+            cursor: pointer;
+            z-index: 1;
+            font-size: 1.5rem;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(5deg); }
+            50% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-15px) rotate(3deg); }
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
 
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .princess-title {
+                font-size: 1rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .cake {
+                font-size: 3.5rem;
+            }
+            
+            .wish-button {
+                font-size: 1rem;
+                padding: 12px 25px;
+                min-width: 200px;
+            }
+            
+            .special-message {
+                font-size: 0.9rem;
+            }
+            
+            .countdown-container {
+                position: static;
+                margin: 15px auto;
+                width: calc(100% - 30px);
+            }
+            
+            .countdown-title {
+                font-size: 0.7rem;
+            }
+            
+            .countdown-timer {
+                font-size: 1rem;
+            }
+            
+            .countdown-value {
+                font-size: 1.2rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.5rem;
+            }
+            
+            .dancer {
+                font-size: 1.2rem;
+            }
+            
+            .wheel-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .wheel-section {
+                font-size: 1rem;
+                padding-left: 25px;
+                padding-bottom: 35px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .message {
+                font-size: 0.9rem;
+            }
+            
+            .cake {
+                font-size: 3rem;
+            }
+            
+            .wish-button {
+                font-size: 0.9rem;
+                min-width: 180px;
+            }
+            
+            .wheel-container {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .wheel-section {
+                font-size: 0.9rem;
+                padding-left: 20px;
+                padding-bottom: 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1476,8 +1551,6 @@
         </div>
     </div>
 
-
-
     <script>
         function closeFortune() {
             document.getElementById('fortuneModal').style.display = 'none';
@@ -1536,7 +1609,7 @@
                 
                 // Show the gift in the ball
                 fortuneMessage.textContent = randomGift;
-                fortuneMessage.style.fontSize = '2rem';
+                fortuneMessage.style.fontSize = '1.5rem';
                 fortuneMessage.style.color = '#ff1493';
                 fortuneMessage.style.textShadow = '0 0 10px rgba(255,255,255,0.9)';
                 
@@ -1578,7 +1651,7 @@
                 sparkle.style.left = x + 'px';
                 sparkle.style.top = y + 'px';
                 sparkle.style.position = 'fixed';
-                sparkle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                sparkle.style.fontSize = (Math.random() * 15 + 10) + 'px';
                 sparkle.textContent = ['✨', '🌟', '⚡', '❄', '☄'][Math.floor(Math.random() * 5)];
                 sparkle.style.animation = 'sparkle 1.5s ease-out';
                 document.body.appendChild(sparkle);
@@ -1712,7 +1785,7 @@
                 confetti.style.left = Math.random() * 100 + '%';
                 confetti.style.animationDelay = Math.random() * 3 + 's';
                 confetti.style.animationDuration = (Math.random() * 4 + 3) + 's';
-                confetti.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                confetti.style.fontSize = (Math.random() * 12 + 12) + 'px';
                 confetti.style.background = 'transparent';
                 document.body.appendChild(confetti);
                 
@@ -1763,7 +1836,7 @@
             element.style.position = 'absolute';
             element.style.left = Math.random() * 100 + '%';
             element.style.top = '100vh';
-            element.style.fontSize = Math.random() * 10 + 20 + 'px';
+            element.style.fontSize = Math.random() * 8 + 15 + 'px';
             element.style.animation = 'float 8s linear';
             element.style.pointerEvents = 'none';
             element.style.color = ['#ff69b4', '#ff1493', '#da70d6', '#ffb6c1'][Math.floor(Math.random() * 4)];
@@ -1911,15 +1984,48 @@
             });
         });
 
-
         // Open virtual gift
-        
-        // Open wheel modal
-       function openVirtualGift() {
+        function openVirtualGift() {
             document.getElementById('fortuneModal').style.display = 'flex';
             document.getElementById('fortuneResult').style.display = 'none';
             document.getElementById('fortuneMessage').textContent = '';
             document.getElementById('fortuneMessage').style.opacity = '0';
+            createMagicalEffect();
+        }
+
+        // Close virtual gift
+        function closeVirtualGift() {
+            document.getElementById('virtualGift').style.display = 'none';
+        }
+
+        // Reveal surprise in virtual gift
+        function revealSurprise() {
+            giftContent.innerHTML = "A magical day filled with love, laughter, and all your heart desires! Plus a special gift from AK! 💖";
+            createMagicalEffect();
+        }
+
+        // Open song lyrics
+        function openSongLyrics() {
+            songLyrics.style.display = 'block';
+            createMagicalEffect();
+        }
+
+        // Close song lyrics
+        function closeSongLyrics() {
+            songLyrics.style.display = 'none';
+        }
+
+        // Sing along function
+        function singAlong() {
+            alert("Let's sing together! 🎤🎶");
+            createMagicalEffect();
+        }
+
+        // Open wheel modal
+        function openWheel() {
+            document.getElementById('wheelModal').style.display = 'flex';
+            document.getElementById('wheelResult').style.display = 'none';
+            document.getElementById('wheel').style.transform = 'rotate(0deg)';
             createMagicalEffect();
         }
 
