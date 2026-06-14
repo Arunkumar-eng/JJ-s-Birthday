@@ -414,8 +414,8 @@
             left: 0;
             right: 0;
             height: 300px;
-            background: url('hogwarts_night.png') center top / cover no-repeat;
-            opacity: 0.25;
+            background: url('realistic_hogwarts_night.png') center top / cover no-repeat;
+            opacity: 0.45;
             mask-image: linear-gradient(to bottom, black 30%, transparent);
             -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent);
         }
@@ -1428,7 +1428,7 @@
     <div class="opening-screen" id="openingScreen">
         <div class="owl-flight" id="owl">🦉</div>
         <div class="envelope-container" id="envelope" onclick="openLetter()">
-            <img src="hogwarts_letter.png" alt="Hogwarts Letter" class="envelope-img">
+            <img src="realistic_hogwarts_letter.png" alt="Hogwarts Letter" class="envelope-img">
         </div>
         <p class="opening-hint">✦ Break the seal to open ✦</p>
     </div>
@@ -1506,17 +1506,7 @@
                 </div>
             </div>
 
-            <!-- Enchanted Photographs -->
-            <div class="photos-section">
-                <div class="enchanted-photo" onclick="viewImage('JJ_wish.png')">
-                    <img src="JJ_wish.png" alt="Birthday celebration" loading="lazy">
-                    <div class="photo-caption">✦ A magical moment ✦</div>
-                </div>
-                <div class="enchanted-photo" onclick="viewImage('birthday_wish.png')">
-                    <img src="birthday_wish.png" alt="Birthday wish" loading="lazy">
-                    <div class="photo-caption">✦ Best friends forever ✦</div>
-                </div>
-            </div>
+            <!-- Photographs removed as requested -->
         </section>
 
         <!-- SECTION 2: Marauder's Map -->
@@ -1571,16 +1561,7 @@
                     <div class="feature-title">Divination Class</div>
                     <div class="feature-desc">Gaze into the crystal ball and discover your birthday prophecy</div>
                 </div>
-                <div class="feature-card" onclick="openSortingHat()" id="cardSorting">
-                    <span class="feature-icon">🎩</span>
-                    <div class="feature-title">The Sorting Hat</div>
-                    <div class="feature-desc">Let the Sorting Hat choose your magical birthday gift</div>
-                </div>
-                <div class="feature-card" onclick="openOwlPost()" id="cardOwlPost">
-                    <span class="feature-icon">🦉</span>
-                    <div class="feature-title">Owl Post</div>
-                    <div class="feature-desc">Send a birthday wish via enchanted owl delivery</div>
-                </div>
+
             </div>
         </section>
 
@@ -1604,7 +1585,7 @@
         <p class="modal-subtitle">Professor Trelawney's crystal ball reveals all...</p>
         <div class="divination-content">
             <div class="crystal-ball-wrapper" onclick="shakeCrystalBall()">
-                <img src="crystal_ball.png" alt="Crystal Ball" class="crystal-ball-img" id="crystalBallImg">
+                <img src="realistic_crystal_ball.png" alt="Crystal Ball" class="crystal-ball-img" id="crystalBallImg">
                 <div class="crystal-ball-mist"></div>
             </div>
             <div class="prophecy-text" id="prophecyText">Touch the crystal ball to reveal your prophecy...</div>
@@ -1616,39 +1597,7 @@
         </div>
     </div>
 
-    <!-- Sorting Hat Modal -->
-    <div class="modal-overlay" id="sortingModal">
-        <button class="modal-close" onclick="closeSorting()">✕</button>
-        <h2 class="modal-title">🎩 The Sorting Hat 🎩</h2>
-        <p class="modal-subtitle">Let the hat choose your magical gift...</p>
-        <div class="sorting-content">
-            <img src="sorting_hat.png" alt="Sorting Hat" class="sorting-hat-img" id="sortingHatImg">
-            <div class="hat-speech" id="hatSpeech">"Hmm... place me on your head and let's see what gift suits you!"</div>
-            <button class="magic-btn" id="sortBtn" onclick="sortGift()">PLACE THE HAT</button>
-            <div class="sorting-result" id="sortingResult">
-                <h3>The Hat Has Decided!</h3>
-                <p>Your magical gift: <span class="gift-name" id="giftResult"></span></p>
-                <p style="margin-top:10px; font-size:0.9rem; opacity:0.8;">To claim your gift, send the name via Owl Post! AK will make it appear. ✨</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Owl Post Modal -->
-    <div class="modal-overlay" id="owlPostModal">
-        <button class="modal-close" onclick="closeOwlPost()">✕</button>
-        <h2 class="modal-title">🦉 Owl Post 🦉</h2>
-        <p class="modal-subtitle">Send your wishes via enchanted owl delivery</p>
-        <div class="owlpost-content">
-            <form class="owlpost-form" id="owlForm" action="https://formspree.io/f/xnnvvblp" method="POST">
-                <textarea name="message" placeholder="Write your magical birthday wish here on this enchanted parchment..." required id="owlMessage"></textarea>
-                <button type="submit" class="magic-btn owlpost-submit" id="owlSubmitBtn">Send by Owl Post 🦉</button>
-                <div class="owlpost-spinner" id="owlSpinner"></div>
-                <div class="owlpost-success" id="owlSuccess">
-                    <span>🦉 Your owl has been dispatched to Hogwarts! ✨</span>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- Image Viewer Modal -->
     <div class="modal-overlay" id="imageViewerModal" onclick="closeImageViewer(event)">
@@ -1948,124 +1897,7 @@
             }, 3000);
         }
 
-        /* ============================================
-           SORTING HAT (Gift Picker)
-           ============================================ */
-        const gifts = [
-            { name: "Nimbus 2000 🧹", speech: "Ahh, I see a love for adventure! Better be..." },
-            { name: "Chocolate Frog Box 🍫", speech: "Hmm, a sweet soul! The hat knows just the thing..." },
-            { name: "Time-Turner ⏳", speech: "Brilliant mind! You need something truly special..." },
-            { name: "Marauder's Map 🗺️", speech: "A mischief-maker at heart! Your gift shall be..." },
-            { name: "Enchanted Jewelry 💎", speech: "Elegance and grace! The hat sees clearly..." },
-            { name: "Pygmy Puff 🧸", speech: "A heart full of love! Your gift shall be..." }
-        ];
 
-        const hatMusings = [
-            '"Hmm, difficult... very difficult..."',
-            '"Plenty of courage, I see..."',
-            '"Not a bad mind, either..."',
-            '"There\'s talent, oh yes..."',
-            '"And a thirst to prove yourself..."',
-            '"But where to put you?"'
-        ];
-
-        function openSortingHat() {
-            document.getElementById('sortingModal').classList.add('active');
-            document.getElementById('sortingResult').style.display = 'none';
-            document.getElementById('hatSpeech').textContent = '"Hmm... place me on your head and let\'s see what gift suits you!"';
-            document.getElementById('sortBtn').disabled = false;
-            document.getElementById('sortBtn').textContent = 'PLACE THE HAT';
-            document.getElementById('sortingHatImg').classList.remove('thinking');
-            createSpellEffect('🎩', window.innerWidth / 2, window.innerHeight / 2);
-        }
-
-        function closeSorting() {
-            document.getElementById('sortingModal').classList.remove('active');
-        }
-
-        function sortGift() {
-            const btn = document.getElementById('sortBtn');
-            const hat = document.getElementById('sortingHatImg');
-            const speech = document.getElementById('hatSpeech');
-            const result = document.getElementById('sortingResult');
-
-            btn.disabled = true;
-            btn.textContent = 'THE HAT IS THINKING...';
-            hat.classList.add('thinking');
-
-            let i = 0;
-            const interval = setInterval(() => {
-                speech.textContent = hatMusings[i % hatMusings.length];
-                i++;
-            }, 800);
-
-            setTimeout(() => {
-                clearInterval(interval);
-                hat.classList.remove('thinking');
-
-                const gift = gifts[Math.floor(Math.random() * gifts.length)];
-                speech.textContent = gift.speech;
-
-                setTimeout(() => {
-                    document.getElementById('giftResult').textContent = gift.name;
-                    result.style.display = 'block';
-                    btn.disabled = false;
-                    btn.textContent = 'SORT AGAIN';
-                    createMagicBurst(window.innerWidth / 2, window.innerHeight / 3);
-                }, 1000);
-            }, 4500);
-        }
-
-        /* ============================================
-           OWL POST (Wish Form)
-           ============================================ */
-        function openOwlPost() {
-            document.getElementById('owlPostModal').classList.add('active');
-            document.getElementById('owlSuccess').style.display = 'none';
-            document.getElementById('owlSpinner').style.display = 'none';
-            document.getElementById('owlSubmitBtn').style.display = 'block';
-            document.getElementById('owlMessage').value = '';
-            createSpellEffect('🦉', window.innerWidth / 2, window.innerHeight / 2);
-        }
-
-        function closeOwlPost() {
-            document.getElementById('owlPostModal').classList.remove('active');
-        }
-
-        document.getElementById('owlForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const btn = document.getElementById('owlSubmitBtn');
-            const spinner = document.getElementById('owlSpinner');
-            const success = document.getElementById('owlSuccess');
-
-            btn.style.display = 'none';
-            spinner.style.display = 'block';
-
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(response => {
-                if (response.ok) {
-                    spinner.style.display = 'none';
-                    success.style.display = 'block';
-                    form.reset();
-                    createMagicBurst(window.innerWidth / 2, window.innerHeight / 2);
-                    setTimeout(() => {
-                        closeOwlPost();
-                    }, 3000);
-                } else {
-                    throw new Error('Failed');
-                }
-            })
-            .catch(() => {
-                spinner.style.display = 'none';
-                btn.style.display = 'block';
-                alert('The owl got lost! Please try again. 🦉');
-            });
-        });
 
         /* ============================================
            IMAGE VIEWER
