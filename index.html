@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✨ The Pensieve of Memories ✨</title>
+    <title>📰 The Daily Prophet: Special Edition 📰</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=MedievalSharp&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
         :root {
-            --midnight: #050a11;
-            --silver: #e0e6ed;
-            --glow-blue: #7bb0ff;
-            --glow-purple: #9b72d6;
-            --stone: #1a1e24;
-            --gold: #d4a934;
+            --paper-light: #f4e4c1;
+            --paper-med: #e8d5a8;
+            --paper-dark: #dcc8a0;
+            --ink-black: #1a1a1a;
+            --ink-fade: #3d2b1f;
+            --ink-light: #5a3d20;
         }
 
         * {
@@ -25,328 +25,295 @@
         }
 
         body {
-            font-family: 'Crimson Text', serif;
-            background: var(--midnight);
-            color: var(--silver);
-            overflow-x: hidden;
+            font-family: 'Crimson Text', Georgia, serif;
+            background: #111; /* Dark background behind the newspaper */
+            color: var(--ink-black);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Background ambient */
-        .ambient-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(123, 176, 255, 0.05) 0%, var(--midnight) 70%);
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Opening Screen */
-        .opening-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--midnight);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            transition: opacity 2s ease, visibility 2s;
-        }
-
-        .opening-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .opening-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: var(--silver);
-            text-shadow: 0 0 15px rgba(123, 176, 255, 0.5);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .enter-btn {
-            background: transparent;
-            border: 1px solid var(--glow-blue);
-            color: var(--glow-blue);
-            font-family: 'Cinzel', serif;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border-radius: 4px;
-            box-shadow: 0 0 15px rgba(123, 176, 255, 0.2), inset 0 0 10px rgba(123, 176, 255, 0.1);
-            transition: all 0.4s;
-        }
-
-        .enter-btn:hover {
-            background: rgba(123, 176, 255, 0.1);
-            box-shadow: 0 0 25px rgba(123, 176, 255, 0.5), inset 0 0 15px rgba(123, 176, 255, 0.3);
-            text-shadow: 0 0 8px var(--glow-blue);
-        }
-
-        /* Main Content */
-        .main-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1000px;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 2s ease, transform 2s ease;
-        }
-
-        .main-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h1.page-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, var(--silver), #fff, var(--silver));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255,255,255,0.2);
-        }
-
-        .page-subtitle {
-            font-family: 'MedievalSharp', cursive;
-            font-size: 1.2rem;
-            color: var(--glow-blue);
-            text-align: center;
-            margin-bottom: 50px;
-            opacity: 0.8;
-        }
-
-        /* Pensieve Area */
-        .pensieve-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin-bottom: 60px;
-            border-radius: 50%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(123, 176, 255, 0.1);
-            transition: all 1s ease;
-        }
-
-        .pensieve-wrapper.active {
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 100px rgba(123, 176, 255, 0.4);
-            filter: brightness(1.2) contrast(1.1);
-        }
-
-        .pensieve-img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px; /* Assuming rectangular cinematic crop */
-            display: block;
-        }
-
-        /* Emergent Memory Text Overlay */
-        .memory-display {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.5s ease;
-            z-index: 20;
-            background: radial-gradient(circle, rgba(5,10,17,0.7) 0%, transparent 80%);
             padding: 20px;
         }
 
-        .memory-display.visible {
-            opacity: 1;
-        }
-
-        .memory-text {
-            font-family: 'MedievalSharp', cursive;
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: #fff;
-            text-shadow: 0 0 10px var(--glow-blue), 0 0 20px var(--glow-purple), 0 0 30px #fff;
-            line-height: 1.6;
-        }
-
-        /* Vials Area */
-        .vials-section {
+        /* The Newspaper Container */
+        .newspaper {
             width: 100%;
-            max-width: 800px;
-            text-align: center;
-        }
-
-        .vials-instruction {
-            font-family: 'Cinzel', serif;
-            color: var(--silver);
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            opacity: 0.7;
-        }
-
-        .vials-container {
+            max-width: 1100px;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 28px,
+                    rgba(61, 43, 31, 0.05) 28px,
+                    rgba(61, 43, 31, 0.05) 29px
+                ),
+                radial-gradient(ellipse at center, var(--paper-light) 0%, var(--paper-med) 70%, var(--paper-dark) 100%);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 80px rgba(61, 43, 31, 0.15);
+            padding: 30px 40px;
+            border-radius: 2px;
             position: relative;
-            display: inline-block;
-            border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+            overflow: hidden;
+            border: 1px solid rgba(61, 43, 31, 0.3);
         }
 
-        .vials-img {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-        }
-
-        /* Interactive Vial Buttons */
-        .vial-btn {
+        /* Grunge / Fold Textures */
+        .newspaper::before {
+            content: '';
             position: absolute;
-            width: 40px;
-            height: 60px;
-            border-radius: 20px;
-            cursor: pointer;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
+            top: 0; left: 50%;
+            bottom: 0; width: 2px;
+            background: linear-gradient(to right, rgba(255,255,255,0.4), rgba(0,0,0,0.1), rgba(255,255,255,0.2));
+            pointer-events: none;
+            z-index: 10;
         }
 
-        .vial-btn:hover, .vial-btn.active {
-            background: radial-gradient(circle, rgba(123, 176, 255, 0.4) 0%, transparent 70%);
-            box-shadow: 0 0 15px rgba(123, 176, 255, 0.8);
-            border: 1px solid rgba(255,255,255,0.5);
-            transform: scale(1.1);
+        /* Masthead */
+        .masthead {
+            text-align: center;
+            border-bottom: 3px double var(--ink-black);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
-        /* Positioning the 5 vials (approximate percentages over the image) */
-        #vial1 { top: 35%; left: 15%; }
-        #vial2 { top: 25%; left: 35%; }
-        #vial3 { top: 40%; left: 50%; }
-        #vial4 { top: 30%; left: 65%; }
-        #vial5 { top: 45%; left: 80%; }
+        .masthead-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--ink-fade);
+            margin-bottom: 5px;
+        }
+
+        .masthead-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 900;
+            line-height: 1;
+            color: var(--ink-black);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            transform: scaleY(1.2);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+        }
+
+        .masthead-info {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border-top: 1px solid var(--ink-black);
+            border-bottom: 1px solid var(--ink-black);
+            padding: 5px 10px;
+            font-weight: 600;
+        }
+
+        /* Grid Layout */
+        .news-grid {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .newspaper::before { display: none; }
+        }
+
+        /* Main Story (Left Column) */
+        .main-story {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .headline {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .author-byline {
+            text-align: center;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.1rem;
+            color: var(--ink-fade);
+            margin-bottom: 20px;
+            font-style: italic;
+            border-bottom: 1px solid rgba(61, 43, 31, 0.3);
+            padding-bottom: 10px;
+        }
+
+        /* Moving Picture */
+        .moving-picture-container {
+            width: 100%;
+            border: 4px solid var(--ink-fade);
+            padding: 4px;
+            background: var(--paper-dark);
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .moving-picture-container::after {
+            content: 'PHOTOGRAPH IN MOTION';
+            position: absolute;
+            bottom: 10px; right: 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            background: rgba(244, 228, 193, 0.8);
+            padding: 2px 5px;
+            border: 1px solid var(--ink-fade);
+            pointer-events: none;
+        }
+
+        .moving-picture {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: sepia(0.6) contrast(1.2) brightness(0.9) grayscale(0.2);
+            animation: movePhoto 8s ease-in-out infinite alternate;
+            transform-origin: center;
+        }
+
+        @keyframes movePhoto {
+            0% { transform: scale(1.02) translate(1px, 1px); filter: sepia(0.6) contrast(1.2) brightness(0.9) grayscale(0.2); }
+            50% { transform: scale(1.05) translate(-2px, -1px); filter: sepia(0.5) contrast(1.3) brightness(0.95) grayscale(0.2); }
+            100% { transform: scale(1.02) translate(1px, -2px); filter: sepia(0.7) contrast(1.1) brightness(0.85) grayscale(0.2); }
+        }
+
+        /* Article Text */
+        .article-body {
+            column-count: 2;
+            column-gap: 25px;
+            column-rule: 1px solid rgba(61, 43, 31, 0.3);
+            text-align: justify;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .article-body { column-count: 1; }
+        }
+
+        .article-body p {
+            margin-bottom: 15px;
+            text-indent: 30px;
+        }
+
+        .article-body p:first-child::first-letter {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            float: left;
+            line-height: 0.8;
+            padding-right: 8px;
+            padding-top: 5px;
+            color: var(--ink-black);
+        }
+
+        .article-body em {
+            font-weight: 600;
+            color: #000;
+        }
+
+        .article-signature {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.3rem;
+            text-align: right;
+            margin-top: 20px;
+            color: var(--ink-black);
+            font-weight: bold;
+        }
+
+        /* Side Column (Right) */
+        .side-column {
+            display: flex;
+            flex-direction: column;
+            border-left: 2px solid var(--ink-black);
+            padding-left: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .side-column {
+                border-left: none;
+                border-top: 2px solid var(--ink-black);
+                padding-left: 0;
+                padding-top: 30px;
+            }
+        }
+
+        .side-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            border-bottom: 1px solid var(--ink-fade);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .memory-ad {
+            border: 1px solid var(--ink-fade);
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .memory-ad::before {
+            content: '✦';
+            position: absolute;
+            top: -10px; left: 50%;
+            transform: translateX(-50%);
+            background: var(--paper-med);
+            padding: 0 5px;
+            font-size: 0.8rem;
+        }
+
+        .ad-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .ad-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            text-align: center;
+            font-style: italic;
+        }
 
         /* Music control */
         .music-control {
             position: fixed;
             top: 20px; right: 20px;
             z-index: 100;
-            background: rgba(123, 176, 255, 0.1);
-            border: 1px solid var(--glow-blue);
+            background: var(--paper-med);
+            border: 2px solid var(--ink-black);
             border-radius: 50%;
-            width: 40px; height: 40px;
+            width: 45px; height: 45px;
             display: flex; justify-content: center; align-items: center;
             cursor: pointer;
-            color: var(--glow-blue);
-            box-shadow: 0 0 10px rgba(123, 176, 255, 0.3);
-        }
-
-        /* Ambient particles */
-        .particle {
-            position: fixed;
-            background: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-            box-shadow: 0 0 10px var(--glow-blue);
-            animation: floatUp var(--dur) linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.5; }
-            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-        }
-
-        /* Birthday Letter Modal */
-        .letter-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5,10,17,0.9);
-            z-index: 9000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s ease;
-        }
-
-        .letter-modal.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .letter-content {
-            background: linear-gradient(135deg, #f4e4c1, #dcc8a0);
-            padding: 40px;
-            border-radius: 4px;
-            max-width: 600px;
-            width: 90%;
-            position: relative;
-            color: #3d2b1f;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(123, 176, 255, 0.2);
-            text-align: center;
-        }
-
-        .letter-close {
-            position: absolute;
-            top: 15px; right: 20px;
-            background: none; border: none;
-            font-size: 1.5rem; cursor: pointer; color: #3d2b1f;
-        }
-
-        .letter-title {
+            color: var(--ink-black);
             font-family: 'Cinzel', serif;
-            font-size: 2rem;
-            color: #740001;
-            margin-bottom: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
         }
+        .music-control:hover { transform: scale(1.1); }
 
-        .letter-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-        
-        .letter-text em {
-            color: #740001;
-            font-weight: 600;
-        }
-
-        .btn-letter {
-            margin-top: 40px;
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 10px 20px;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn-letter:hover {
-            background: rgba(212, 169, 52, 0.1);
-            box-shadow: 0 0 15px rgba(212, 169, 52, 0.4);
-        }
-
-        @media (max-width: 600px) {
-            h1.page-title { font-size: 1.8rem; }
-            .memory-text { font-size: 1rem; }
-            /* Adjust vial positions for mobile if needed, though % should scale */
-            .vial-btn { width: 30px; height: 45px; }
-        }
     </style>
 </head>
 <body>
@@ -358,86 +325,71 @@
 
     <div class="music-control" id="musicBtn" onclick="toggleMusic()">♪</div>
 
-    <div class="ambient-bg" id="particles"></div>
-
-    <!-- Opening Screen -->
-    <div class="opening-screen" id="openingScreen">
-        <div class="opening-title">Dumbledore's Office</div>
-        <p style="font-family:'MedievalSharp', cursive; margin-bottom: 40px; color: var(--glow-blue); font-size: 1.2rem;">A collection of memories awaits...</p>
-        <button class="enter-btn" onclick="enterPensieve()">Approach the Pensieve</button>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-container" id="mainContent">
-        <h1 class="page-title">The Pensieve of Memories</h1>
-        <p class="page-subtitle">For Jeya Jenilia</p>
-
-        <!-- The Pensieve -->
-        <div class="pensieve-wrapper" id="pensieve">
-            <img src="realistic_pensieve.png" alt="The Pensieve" class="pensieve-img">
-            
-            <div class="memory-display" id="memoryDisplay">
-                <div class="memory-text" id="memoryText"></div>
+    <div class="newspaper">
+        <div class="masthead">
+            <div class="masthead-subtitle">The Wizarding World's Most Captivating News</div>
+            <div class="masthead-title">The Daily Prophet</div>
+            <div class="masthead-info">
+                <span>London, Monday, June 17</span>
+                <span>Special Edition</span>
+                <span>1 Sickle</span>
             </div>
         </div>
 
-        <!-- The Vials -->
-        <div class="vials-section">
-            <p class="vials-instruction">✦ Select a memory vial to pour into the Pensieve ✦</p>
-            <div class="vials-container">
-                <img src="realistic_memory_vials.png" alt="Memory Vials" class="vials-img">
-                <!-- Clickable hotspots for vials -->
-                <div class="vial-btn" id="vial1" onclick="pourMemory(0, this)"></div>
-                <div class="vial-btn" id="vial2" onclick="pourMemory(1, this)"></div>
-                <div class="vial-btn" id="vial3" onclick="pourMemory(2, this)"></div>
-                <div class="vial-btn" id="vial4" onclick="pourMemory(3, this)"></div>
-                <div class="vial-btn" id="vial5" onclick="pourMemory(4, this)"></div>
-            </div>
-        </div>
+        <div class="news-grid">
+            <!-- Left Column: Main Article -->
+            <div class="main-story">
+                <h1 class="headline">Extra! Extra! Jeya Jenilia Celebrates Magical Birthday!</h1>
+                <div class="author-byline">Written by Special Correspondent AK ⚡</div>
 
-        <button class="btn-letter" onclick="openLetter()">Read the Birthday Letter</button>
-    </div>
+                <div class="moving-picture-container">
+                    <img src="prophet_cake.png" alt="Magical Birthday Cake" class="moving-picture">
+                </div>
 
-    <!-- Birthday Letter Modal -->
-    <div class="letter-modal" id="letterModal">
-        <div class="letter-content">
-            <button class="letter-close" onclick="closeLetter()">✕</button>
-            <div class="letter-title">Happy Birthday, JJ! ⚡</div>
-            <div class="letter-text">
-                Like <em>Hermione Granger</em>, you've got the brilliance to figure out any spell life throws at you, and the heart to always stand by your friends. You're like my own personal <em>Room of Requirement</em> — always there exactly when I need you.<br><br>
-                May your birthday be brighter than <em>Weasley's Wizard Wheezes</em> fireworks, more thrilling than a game of <em>Quidditch</em>, and as warm as a hug from <em>Molly Weasley</em>.
+                <div class="article-body">
+                    <p>The wizarding world rejoices today as the highly esteemed Jeya Jenilia celebrates another year of magic. Sources close to the birthday witch report that festivities are well underway, with celebrations expected to rival a Great Hall feast.</p>
+                    <p>When asked for comment, one close friend stated: "Like <em>Hermione Granger</em>, she's got the brilliance to figure out any spell life throws at her, and the heart to always stand by her friends. She's like my own personal <em>Room of Requirement</em> — always there exactly when I need her."</p>
+                    <p>The Ministry of Magic has reportedly issued a statement hoping her birthday is brighter than <em>Weasley's Wizard Wheezes</em> fireworks, more thrilling than a game of <em>Quidditch</em>, and as warm as a hug from <em>Molly Weasley</em>.</p>
+                    <p>It remains to be seen whether the celebrations will include unauthorized use of flying carpets, though magical law enforcement remains on standby. Regardless, the entire magical community joins in wishing her the happiest of birthdays.</p>
+                    <div class="article-signature">~ AK ⚡<br><span style="font-size: 0.8rem; font-family: 'Cinzel', serif;">Your Fellow Potterhead</span></div>
+                </div>
             </div>
-            <div style="font-family: 'MedievalSharp', cursive; text-align: right; margin-top: 20px; color: #5a3d20;">
-                With all the magic in my heart,<br>
-                <strong style="color: #2d5016; font-size: 1.3rem;">~ AK ⚡</strong>
+
+            <!-- Right Column: Memories as Classifieds/Ads -->
+            <div class="side-column">
+                <h2 class="side-title">Magical Memories</h2>
+                
+                <div class="memory-ad">
+                    <div class="ad-title">The Sorting</div>
+                    <div class="ad-text">Two strangers walked into college, not knowing they'd find their person. The Sorting Hat knew exactly what it was doing.</div>
+                </div>
+
+                <div class="memory-ad">
+                    <div class="ad-title">First Spells</div>
+                    <div class="ad-text">Surviving exams, late-night study sessions, and infinite laughs. Magic in the making.</div>
+                </div>
+
+                <div class="memory-ad">
+                    <div class="ad-title">The Unbreakable Vow</div>
+                    <div class="ad-text">Through every high and low, standing fiercely by each other's side. A bond stronger than any spell.</div>
+                </div>
+
+                <div class="memory-ad">
+                    <div class="ad-title">The Patronus</div>
+                    <div class="ad-text">Being the light in each other's darkest times. A true magical friendship that dispels any dementor.</div>
+                </div>
+
+                <div class="memory-ad">
+                    <div class="ad-title">Always</div>
+                    <div class="ad-text">No matter the distance, no matter the time. Best friends for life.</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const memories = [
-            "The Sorting: Two strangers walked into college, not knowing they'd find their person.",
-            "First Spells: Surviving exams, late-night study sessions, and infinite laughs.",
-            "The Unbreakable Vow: Through every high and low, standing fiercely by each other's side.",
-            "The Patronus: Being the light in each other's darkest times. A true magical friendship.",
-            "Always: No matter the distance, no matter the time. Best friends for life."
-        ];
-
         let musicPlaying = false;
         const music = document.getElementById('bgMusic');
-
-        // Create ambient particles
-        const particleContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            let p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.width = Math.random() * 4 + 1 + 'px';
-            p.style.height = p.style.width;
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.setProperty('--dur', Math.random() * 10 + 10 + 's');
-            p.style.animationDelay = Math.random() * 10 + 's';
-            particleContainer.appendChild(p);
-        }
 
         function toggleMusic() {
             if (musicPlaying) {
@@ -449,51 +401,11 @@
             }
             musicPlaying = !musicPlaying;
         }
-
-        function enterPensieve() {
-            document.getElementById('openingScreen').classList.add('hidden');
-            setTimeout(() => {
-                document.getElementById('mainContent').classList.add('visible');
-                if(!musicPlaying) toggleMusic();
-            }, 1000);
-        }
-
-        let isAnimating = false;
-
-        function pourMemory(index, btnElement) {
-            if (isAnimating) return;
-            isAnimating = true;
-
-            // Reset buttons
-            document.querySelectorAll('.vial-btn').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-
-            const pensieve = document.getElementById('pensieve');
-            const display = document.getElementById('memoryDisplay');
-            const text = document.getElementById('memoryText');
-
-            // Hide current memory
-            display.classList.remove('visible');
-            pensieve.classList.add('active');
-
-            setTimeout(() => {
-                text.textContent = memories[index];
-                display.classList.add('visible');
-                
-                setTimeout(() => {
-                    pensieve.classList.remove('active');
-                    isAnimating = false;
-                }, 1000);
-            }, 1000);
-        }
-
-        function openLetter() {
-            document.getElementById('letterModal').classList.add('visible');
-        }
-
-        function closeLetter() {
-            document.getElementById('letterModal').classList.remove('visible');
-        }
+        
+        // Auto-play attempt (may be blocked by browser policy until interaction)
+        document.body.addEventListener('click', () => {
+            if(!musicPlaying) toggleMusic();
+        }, {once: true});
     </script>
 </body>
 </html>
