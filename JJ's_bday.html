@@ -696,19 +696,29 @@
             box-shadow: 0 0 30px rgba(212, 169, 52, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.8);
         }
 
+        .password-container {
+            background: rgba(255, 245, 230, 0.85);
+            border: 2px solid #8b6914;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
         .password-question {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: #d4a934;
+            font-size: 1.2rem;
+            color: #3d2b1f;
             margin-bottom: 10px;
             font-weight: 600;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
 
         .password-hint {
             font-family: 'Crimson Text', serif;
-            font-size: 1.1rem;
-            color: #ccc;
+            font-size: 1rem;
+            color: #5a402d;
             margin-bottom: 20px;
             font-style: italic;
         }
@@ -716,31 +726,83 @@
         .password-input {
             font-family: 'Crimson Text', serif;
             font-size: 1.2rem;
-            padding: 12px 20px;
+            padding: 10px 15px;
             border-radius: 5px;
-            border: 1px solid #d4a934;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
+            border: 2px solid #8b6914;
+            background: #fff9ed;
+            color: #3d2b1f;
             text-align: center;
             margin-bottom: 25px;
             width: 80%;
-            max-width: 350px;
             outline: none;
-            transition: box-shadow 0.3s;
+            transition: all 0.3s;
         }
 
         .password-input:focus {
-            box-shadow: 0 0 15px rgba(212, 169, 52, 0.8);
+            box-shadow: 0 0 10px rgba(139, 105, 20, 0.5);
+            background: #fff;
         }
 
         .password-error {
-            color: #ff4444;
+            color: #8b0000;
             font-family: 'Crimson Text', serif;
             margin-top: 15px;
             height: 20px;
             font-style: italic;
             font-size: 1.1rem;
-            text-shadow: 0 0 5px #000;
+        }
+
+        .reels-section {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .reels-title {
+            font-family: 'Cinzel', serif;
+            color: #3d2b1f;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .reels-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 15px 10px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .reels-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .reels-container::-webkit-scrollbar-track {
+            background: rgba(61, 43, 31, 0.1);
+            border-radius: 4px;
+        }
+
+        .reels-container::-webkit-scrollbar-thumb {
+            background: rgba(61, 43, 31, 0.5);
+            border-radius: 4px;
+        }
+
+        .reel-item {
+            flex: 0 0 auto;
+            width: 260px;
+            scroll-snap-align: center;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid #8b6914;
+            background: #000;
+        }
+
+        .reel-item video {
+            width: 100%;
+            height: 460px;
+            object-fit: cover;
+            display: block;
         }
 
         @keyframes pulse-gold {
@@ -1574,11 +1636,13 @@
         <section class="marauders-section" id="maraudersSection">
             <div class="marauders-container">
                 <div class="map-oath" id="mapOath">
-                    <div class="password-question">Question: "The exact era when I finally noticed you existed on campus (even if you think I'm lying)."</div>
-                    <div class="password-hint">Hint: (Format: _______YearMagic)</div>
-                    <input type="text" id="mapPassword" class="password-input" placeholder="Enter password...">
-                    <div class="oath-btn" onclick="checkPassword()">I solemnly swear that I am up to no good</div>
-                    <div id="passwordError" class="password-error"></div>
+                    <div class="password-container">
+                        <div class="password-question">Question: "The exact era when I finally noticed you existed on campus (even if you think I'm lying)."</div>
+                        <div class="password-hint">Hint: (Format: _______YearMagic)</div>
+                        <input type="text" id="mapPassword" class="password-input" placeholder="Enter password...">
+                        <div class="oath-btn" onclick="checkPassword()">I solemnly swear that I am up to no good</div>
+                        <div id="passwordError" class="password-error"></div>
+                    </div>
                 </div>
 
                 <div class="ink-reveal hidden" id="mapContent">
@@ -1601,6 +1665,19 @@
                         <div class="memory-step" data-delay="600">
                             <div class="memory-year">Chapter IV — Always</div>
                             <div class="memory-text">"After all this time?" — "Always." Here's to many more chapters. This friendship is forever. 💛</div>
+                        </div>
+                    </div>
+
+                    <div class="reels-section">
+                        <h3 class="reels-title">Our Magical Reels</h3>
+                        <div class="reels-container">
+                            <div class="reel-item"><video src="reels/1.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="reels/2.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="reels/3.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="reels/4.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="reels/5.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="reels/6.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="reels/7.mp4" controls loop playsinline></video></div>
                         </div>
                     </div>
 
