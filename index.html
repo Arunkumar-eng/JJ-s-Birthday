@@ -2086,6 +2086,11 @@
         /* ============================================
            PAGE LOAD SEQUENCE
            ============================================ */
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         window.addEventListener('load', () => {
             // Auto-try music
             music.play().then(() => {
