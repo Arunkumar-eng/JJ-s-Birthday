@@ -1671,13 +1671,13 @@
                     <div class="reels-section">
                         <h3 class="reels-title">Our Magical Reels</h3>
                         <div class="reels-container">
-                            <div class="reel-item"><video src="reels/1.mp4" controls loop playsinline></video></div>
-                            <div class="reel-item"><video src="reels/2.mp4" controls loop playsinline></video></div>
-                            <div class="reel-item"><video src="reels/3.mp4" controls loop playsinline></video></div>
-                            <div class="reel-item"><video src="reels/4.mp4" controls loop playsinline></video></div>
-                            <div class="reel-item"><video src="reels/5.mp4" controls loop playsinline></video></div>
-                            <div class="reel-item"><video src="reels/6.mp4" controls loop playsinline></video></div>
-                            <div class="reel-item"><video src="reels/7.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/1.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/2.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/3.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/4.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/5.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/6.mp4" controls loop playsinline></video></div>
+                            <div class="reel-item"><video src="Reels/7.mp4" controls loop playsinline></video></div>
                         </div>
                     </div>
 
@@ -2179,6 +2179,23 @@
             }).catch(() => {
                 musicBtn.textContent = '🔇';
                 musicBtn.style.animation = 'sealPulse 1.5s ease-in-out infinite';
+            });
+
+            // Handle reels audio interaction
+            const reels = document.querySelectorAll('.reel-item video');
+            reels.forEach(video => {
+                video.addEventListener('play', () => {
+                    if (musicPlaying) {
+                        music.pause();
+                        musicBtn.textContent = '🔇';
+                        musicBtn.style.animation = '';
+                        musicPlaying = false;
+                    }
+                    // Pause other videos
+                    reels.forEach(v => {
+                        if (v !== video) v.pause();
+                    });
+                });
             });
         });
     </script>
