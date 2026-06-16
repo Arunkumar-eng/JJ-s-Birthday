@@ -1688,18 +1688,19 @@
             </div>
         </section>
 
-        <!-- SECTION 3: Interactive Features -->
+        <!-- SECTION 3: Virtual Gifts -->
         <section class="features-section">
-            <h2 class="section-title">✧ Magical Activities ✧</h2>
-            <p class="section-subtitle">"It does not do to dwell on dreams and forget to live — so let's play!"</p>
+            <h2 class="section-title">✧ Virtual Gifts ✧</h2>
+            <p class="section-subtitle">"It does not do to dwell on dreams and forget to live — so let's play some music!"</p>
 
             <div class="features-grid">
-                <div class="feature-card" onclick="openDivination()" id="cardDivination">
-                    <span class="feature-icon">🔮</span>
-                    <div class="feature-title">Divination Class</div>
-                    <div class="feature-desc">Gaze into the crystal ball and discover your birthday prophecy</div>
-                </div>
-
+                <a href="https://open.spotify.com/playlist/7fMgw7IFhrbJ8ko9tv1mab?si=e35f617425d64b7f&pt=994c6fd29a00450def5eaa24cab4a707" target="_blank" style="text-decoration: none;">
+                    <div class="feature-card" id="cardPlaylist">
+                        <span class="feature-icon">🎶</span>
+                        <div class="feature-title">The Yule Ball Playlist</div>
+                        <div class="feature-desc">Listen to our shared favorites and magical memories. (Opens Spotify)</div>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -1715,26 +1716,6 @@
     </div>
 
     <!-- ========== MODALS ========== -->
-
-    <!-- Divination Modal -->
-    <div class="modal-overlay" id="divinationModal">
-        <button class="modal-close" onclick="closeDivination()">✕</button>
-        <h2 class="modal-title">🔮 Divination Class 🔮</h2>
-        <p class="modal-subtitle">Professor Trelawney's crystal ball reveals all...</p>
-        <div class="divination-content">
-            <div class="crystal-ball-wrapper" onclick="shakeCrystalBall()">
-                <img src="realistic_crystal_ball.png" alt="Crystal Ball" class="crystal-ball-img" id="crystalBallImg">
-                <div class="crystal-ball-mist"></div>
-            </div>
-            <div class="prophecy-text" id="prophecyText">Touch the crystal ball to reveal your prophecy...</div>
-            <button class="magic-btn" id="divineBtn" onclick="shakeCrystalBall()">REVEAL PROPHECY</button>
-            <div class="divination-result" id="divinationResult">
-                <h3>✨ The Stars Have Spoken! ✨</h3>
-                <p id="divinationProphecy"></p>
-            </div>
-        </div>
-    </div>
-
 
 
     <!-- Image Viewer Modal -->
@@ -1979,73 +1960,7 @@
         }, { threshold: 0.5 });
         mapObserver.observe(document.getElementById('mapOath'));
 
-        /* ============================================
-           DIVINATION (Fortune Teller)
-           ============================================ */
-        const prophecies = [
-            "The stars foretell a year of extraordinary magic and boundless joy! ✨",
-            "A great adventure awaits you — one that will make your heart soar like a Hippogriff! 🦅",
-            "The crystal reveals... someone very special thinks the world of you! 💛",
-            "Beware of excessive chocolate frog consumption... just kidding, go wild! 🍫",
-            "This year, your inner light will shine brighter than a thousand Lumos spells! 💫",
-            "The tea leaves show... laughter, love, and late-night conversations ahead! 🫖",
-            "A magical transformation is coming — you're about to level up in every way! 🌟",
-            "The planets align to bring you the most spectacular year yet! 🪐"
-        ];
 
-        function openDivination() {
-            document.getElementById('divinationModal').classList.add('active');
-            document.getElementById('divinationResult').style.display = 'none';
-            document.getElementById('prophecyText').textContent = 'Touch the crystal ball to reveal your prophecy...';
-            document.getElementById('divineBtn').disabled = false;
-            document.getElementById('divineBtn').textContent = 'REVEAL PROPHECY';
-            createSpellEffect('🔮 Revelio!', window.innerWidth / 2, window.innerHeight / 2);
-        }
-
-        function closeDivination() {
-            document.getElementById('divinationModal').classList.remove('active');
-        }
-
-        function shakeCrystalBall() {
-            const btn = document.getElementById('divineBtn');
-            const img = document.getElementById('crystalBallImg');
-            const prophecyText = document.getElementById('prophecyText');
-            const result = document.getElementById('divinationResult');
-
-            btn.disabled = true;
-            btn.textContent = 'CONSULTING THE STARS...';
-
-            // Add shake
-            img.style.animation = 'none';
-            requestAnimationFrame(() => {
-                img.style.animation = 'hatWiggle 0.2s ease-in-out 10';
-            });
-
-            const loadingMsgs = [
-                "The mists are swirling...",
-                "The third eye opens...",
-                "Reading the celestial patterns...",
-                "The prophecy forms..."
-            ];
-
-            let i = 0;
-            const interval = setInterval(() => {
-                prophecyText.textContent = loadingMsgs[i % loadingMsgs.length];
-                i++;
-            }, 600);
-
-            setTimeout(() => {
-                clearInterval(interval);
-                img.style.animation = '';
-                const prophecy = prophecies[Math.floor(Math.random() * prophecies.length)];
-                prophecyText.textContent = prophecy;
-                document.getElementById('divinationProphecy').textContent = prophecy;
-                result.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = 'DIVINE AGAIN';
-                createMagicBurst(window.innerWidth / 2, window.innerHeight / 3);
-            }, 3000);
-        }
 
 
 
