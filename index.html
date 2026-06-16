@@ -669,23 +669,90 @@
         }
 
         .map-oath {
-            font-family: 'MedievalSharp', cursive;
-            font-size: clamp(1.3rem, 4vw, 1.8rem);
-            color: #3d2b1f;
             text-align: center;
-            cursor: pointer;
-            padding: 20px;
-            transition: all 0.5s;
             position: relative;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .map-oath:hover {
-            text-shadow: 0 0 15px rgba(61, 43, 31, 0.5);
+        .oath-btn {
+            font-family: 'MedievalSharp', cursive;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color: #fff;
+            background: linear-gradient(135deg, #d4a934, #b48600);
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 20px rgba(212, 169, 52, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            animation: pulse-gold 2s infinite alternate;
+        }
+
+        .oath-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(212, 169, 52, 0.9), inset 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .password-question {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: #d4a934;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .password-hint {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .password-input {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.2rem;
+            padding: 12px 20px;
+            border-radius: 5px;
+            border: 1px solid #d4a934;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+            width: 80%;
+            max-width: 350px;
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
+
+        .password-input:focus {
+            box-shadow: 0 0 15px rgba(212, 169, 52, 0.8);
+        }
+
+        .password-error {
+            color: #ff4444;
+            font-family: 'Crimson Text', serif;
+            margin-top: 15px;
+            height: 20px;
+            font-style: italic;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #000;
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 15px rgba(212, 169, 52, 0.5); }
+            100% { box-shadow: 0 0 35px rgba(212, 169, 52, 1); }
         }
 
         .map-oath.revealed {
             opacity: 0.5;
-            font-size: 1rem;
+            pointer-events: none;
+            transform: scale(0.9);
+            transition: all 0.5s;
         }
 
         .ink-reveal {
@@ -1470,8 +1537,8 @@
             <div class="birthday-letter">
                 <div class="hogwarts-crest">🏰</div>
                 <div class="letter-header">
-                    <div class="letter-school">Hogwarts School of Witchcraft & Wizardry</div>
-                    <div class="letter-subtitle">Headmaster: Albus Dumbledore</div>
+                    <div class="letter-school">The Grand Order of Best Friends</div>
+                    <div class="letter-subtitle">Department of Magical Memories</div>
                 </div>
 
                 <div class="letter-divider"></div>
@@ -1506,8 +1573,12 @@
         <!-- SECTION 2: Marauder's Map -->
         <section class="marauders-section" id="maraudersSection">
             <div class="marauders-container">
-                <div class="map-oath" id="mapOath" onclick="revealMap()">
-                    ✦ "I solemnly swear that I am up to no good" ✦
+                <div class="map-oath" id="mapOath">
+                    <div class="password-question">Question: "The exact era when I finally noticed you existed on campus (even if you think I'm lying)."</div>
+                    <div class="password-hint">Hint: (Format: _______YearMagic)</div>
+                    <input type="text" id="mapPassword" class="password-input" placeholder="Enter password...">
+                    <div class="oath-btn" onclick="checkPassword()">I solemnly swear that I am up to no good</div>
+                    <div id="passwordError" class="password-error"></div>
                 </div>
 
                 <div class="ink-reveal hidden" id="mapContent">
@@ -1781,6 +1852,18 @@
            MARAUDER'S MAP
            ============================================ */
         let mapRevealed = false;
+
+        function checkPassword() {
+            const input = document.getElementById('mapPassword').value.trim();
+            const errorDiv = document.getElementById('passwordError');
+            
+            if (input.toLowerCase() === 'thirdyearmagic') {
+                errorDiv.textContent = '';
+                revealMap();
+            } else {
+                errorDiv.textContent = 'Incorrect password! The map remains hidden.';
+            }
+        }
 
         function revealMap() {
             if (mapRevealed) return;
