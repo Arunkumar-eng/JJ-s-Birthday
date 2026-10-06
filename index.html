@@ -1806,9 +1806,65 @@
         createSnitches();
 
         /* ============================================
+           EMAIL NOTIFICATIONS (Formspree)
+           ============================================ */
+        const NOTIFICATION_ENDPOINT = 'https://formspree.io/f/xnnvvblp';
+        let entryNotificationSent = false;
+        let lastNotifiedPassword = '';
+
+        function sendNotification(subject, details) {
+            try {
+                const payload = {
+                    _subject: subject,
+                    ...details,
+                    page: window.location.pathname.split('/').pop() || 'index.html',
+                    timestamp: new Date().toLocaleString()
+                };
+
+                fetch(NOTIFICATION_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                }).catch(err => {
+                    console.log('Notification log:', err);
+                });
+            } catch (e) {
+                console.log('Notification error:', e);
+            }
+        }
+
+        function notifyPasswordEntered(input, result) {
+            if (!input || input === lastNotifiedPassword) return;
+            lastNotifiedPassword = input;
+
+            const isCorrect = input.toLowerCase() === 'thirdyearmagic';
+            const subject = isCorrect 
+                ? '🔓 [JJ Birthday] Password Correct - Map Unlocked!' 
+                : `🔒 [JJ Birthday] Password Attempt: "${input}"`;
+
+            sendNotification(subject, {
+                event: isCorrect ? 'Password Correct (Unlocked)' : 'Password Attempt',
+                entered_password: input,
+                status: isCorrect ? 'Success' : (result || 'Typed')
+            });
+        }
+
+        /* ============================================
            OPENING SEQUENCE
            ============================================ */
         function openLetter() {
+            if (!entryNotificationSent) {
+                entryNotificationSent = true;
+                sendNotification('💌 [JJ Birthday] Entry Card Opened!', {
+                    event: 'Entry Card Clicked',
+                    message: 'JJ clicked the wax seal and opened the Hogwarts letter!'
+                });
+            }
+
             const screen = document.getElementById('openingScreen');
             screen.classList.add('hidden');
 
@@ -1918,9 +1974,13 @@
             
             if (input.toLowerCase() === 'thirdyearmagic') {
                 errorDiv.textContent = '';
+                notifyPasswordEntered(input, 'Correct');
                 revealMap();
             } else {
                 errorDiv.textContent = 'Incorrect password! The map remains hidden.';
+                if (input) {
+                    notifyPasswordEntered(input, 'Incorrect');
+                }
             }
         }
 
@@ -1960,6 +2020,28 @@
             });
         }, { threshold: 0.5 });
         mapObserver.observe(document.getElementById('mapOath'));
+
+        // Handle password input interactions (Enter key + typing notification)
+        const passwordInput = document.getElementById('mapPassword');
+        let passwordTypingTimer = null;
+        if (passwordInput) {
+            passwordInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            passwordInput.addEventListener('input', (e) => {
+                clearTimeout(passwordTypingTimer);
+                const val = e.target.value.trim();
+                if (val.length >= 3 && val !== lastNotifiedPassword) {
+                    passwordTypingTimer = setTimeout(() => {
+                        if (val !== lastNotifiedPassword && !mapRevealed) {
+                            notifyPasswordEntered(val, 'Typed in box');
+                        }
+                    }, 3000);
+                }
+            });
+        }
 
 
 
